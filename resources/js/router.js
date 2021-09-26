@@ -6,8 +6,17 @@ Vue.use(VueRouter);
 const routes = [
     {
         path:'/',
-        component: () => import("./views/Resources")
-    }
+        component: () => import("./views/Welcome")
+    },
+    {
+        path:'/browse-resources',
+        component: () => import("./components/BrowseResources")
+    },
+    {
+        path:'/manage-resources',
+        component: () => import("./views/ManageResources")
+    },
+
 ]
 export default new VueRouter({
     mode:'history',
