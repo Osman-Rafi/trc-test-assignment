@@ -1,6 +1,6 @@
 <template>
     <b-modal centered id="create-pdf-resource" title="Create a PDF Downloadable Resource" @ok="handleOk"
-             @cancel="resetModal"
+             @cancel="resetModal" @close="resetModal"
              button-size="sm"
              cancelTitle="Discard" okTitle="Save Post">
         <b-form ref="form" enctype="multipart/form-data">
@@ -14,6 +14,7 @@
                     type="email"
                     placeholder="i.e. Why Vue is awesome !"
                     required
+                    size="sm"
                     v-model="title"
                     :state="titleState"
                 ></b-form-input>
@@ -23,6 +24,7 @@
                 <b-form-file
                     v-model="file"
                     :state="fileState"
+                    size="sm"
                     placeholder="Choose a file or drop it here..."
                     drop-placeholder="Drop file here..."
                 ></b-form-file>
@@ -38,6 +40,7 @@
 import Vue from "vue";
 import {BForm, BFormFile, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin} from "bootstrap-vue";
 import axios from "axios";
+import {isEmpty} from 'lodash-es';
 
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
@@ -49,12 +52,19 @@ export default {
     components: {
         ...uiComponents
     },
+    props: {
+        resource: {
+            type: Object
+        },
+        operation: {type: String}
+    },
     data: function () {
         return {
             title: "",
             file: null,
             titleState: null,
-            fileState: null
+            fileState: null,
+            test: ""
         }
     },
     methods: {
@@ -66,10 +76,11 @@ export default {
             return this.titleState && this.fileState
         },
         resetModal() {
-            this.title = ''
+            this.title = ""
             this.file = null
             this.titleState = null
             this.fileState = null
+            this.$emit("toggle-modal", this.resource)
         },
         handleOk(bvModalEvt) {
             // Prevent modal from closing
@@ -87,7 +98,14 @@ export default {
             formData.append('file', this.file)
             formData.append('type', 'pdf')
 
-            axios.post('api/create-pdf-resource', formData)
+            const method = this.operation === 'edit' ? 'put' : 'post';
+            const url = method === 'post' ? 'api/create-pdf-resource' : `api/update-pdf-resource/${this.resource.id}`
+
+            axios({
+                method: method,
+                url: url,
+                data: formData
+            })
                 .then((res) => {
                     if (res.status === 201) {
                         this.$nextTick(() => {
@@ -118,7 +136,15 @@ export default {
 
             this.titleState = null
             this.fileState = null
-        }
+            this.resetModal();
+        },
     },
+    created() {
+        this.$nextTick(() => {
+            if (!isEmpty(this.resource)) {
+                this.title = this.resource.title
+            }
+        })
+    }
 }
 </script>
