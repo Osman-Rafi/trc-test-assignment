@@ -27,7 +27,7 @@ class ManagementController extends Controller
 
     public function fetchResources()
     {
-        $resources = Resources::select('id', 'type', 'file', 'description', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
+        $resources = Resources::select('id', 'type', 'title', 'file', 'description', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'resources' => $resources
