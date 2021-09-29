@@ -56,7 +56,7 @@ export default {
         resource: {
             type: Object
         },
-        operation: {type: String}
+        operation: {type: String, required: true}
     },
     data: function () {
         return {
@@ -80,7 +80,8 @@ export default {
             this.file = null
             this.titleState = null
             this.fileState = null
-            this.$emit("toggle-modal", this.resource)
+            this.$emit("toggle-modal", "create-pdf-resource")
+            console.log("hello")
         },
         handleOk(bvModalEvt) {
             // Prevent modal from closing
@@ -97,17 +98,16 @@ export default {
             formData.append('title', this.title)
             formData.append('file', this.file)
             formData.append('type', 'pdf')
+            if (this.operation === "edit")
+                formData.append("_method", "post")
 
-            const method = this.operation === 'edit' ? 'put' : 'post';
-            const url = method === 'post' ? 'api/create-pdf-resource' : `api/update-pdf-resource/${this.resource.id}`
+            const url = this.operation === 'edit' ? `api/update-pdf-resource/${this.resource.id}` : 'api/create-pdf-resource';
 
-            axios({
-                method: method,
-                url: url,
-                data: formData
-            })
+
+            axios.post(url, formData)
                 .then((res) => {
-                    if (res.status === 201) {
+                    this.$emit('on-change-resource', res.data.resource, this.operation)
+                    if (res.status) {
                         this.$nextTick(() => {
                             this.$bvModal.hide('create-pdf-resource')
                         })
@@ -116,12 +116,10 @@ export default {
                 .then(() => {
                     this.$bvToast.toast('Resources Created Successfully', {
                         title: "Success !!",
-                        toaster: 'b-toaster-bottom-left',
+                        toaster: 'b-toaster-top-left',
                         solid: true,
-                        variant: 'success'
+                        variant: 'primary'
                     })
-                })
-                .then(() => {
                     this.resetModal()
                 })
                 .catch(error => {
@@ -136,7 +134,6 @@ export default {
 
             this.titleState = null
             this.fileState = null
-            this.resetModal();
         },
     },
     created() {

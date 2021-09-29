@@ -24,7 +24,7 @@ class ManagementController extends Controller
 
         $resource->save();
 
-        return response(['message' => 'Resource created successfully'], 201);
+        return response(['message' => 'Resource updated successfully', 'resource' => $resource], 201);
     }
 
     public function fetchResources()
@@ -50,18 +50,16 @@ class ManagementController extends Controller
         return response(['message' => 'Resource created successfully'], 201);
     }
 
-    public function updatePdfResource(Resources $resource, UpdatePdfResourceRequest $request)
+    public function updatePdfResource(UpdatePdfResourceRequest $request, Resources $resource)
     {
-        $filePath = $request->file('file')->store('files', 'public');
-
         // saving request data to DB
         $resource->type = $request->type;
         $resource->title = $request->title;
-        $resource->file = $filePath;
 
+        $resource->file = $request->file('file')->store('files', 'public');
 
         $resource->save();
 
-        return response(['message' => 'Resource updated successfully'], 201);
+        return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
     }
 }

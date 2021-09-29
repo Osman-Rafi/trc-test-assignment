@@ -21,14 +21,23 @@
                     </b-dropdown-item>
                 </b-dropdown>
                 <template v-if="enableCreatePdf">
-                    <create-pdf-resource @toggle-modal="handleModal"/>
+                    <create-pdf-resource
+                        operation="create"
+                        @toggle-modal="handleModal"
+                        @on-change-resource="onChangeResource"
+                    />
                 </template>
                 <template v-if="enableCreateHtmlSnippet">
                     <create-html-snippet @toggle-modal="handleModal"/>
                 </template>
             </b-card>
             <div>
-                <browse-resources :can-manage="true"/>
+                <browse-resources
+                    :resources="resources"
+                    :can-manage="true"
+                    :loading="loading"
+                    @on-change-resource="onChangeResource"
+                />
             </div>
         </b-col>
     </b-row>
@@ -50,6 +59,7 @@ import {
 import CreatePdfResource from "../components/CreatePdfResource";
 import BrowseResources from "../components/BrowseResources";
 import CreateHtmlSnippet from "../components/CreateHtmlSnippet";
+import axios from "axios";
 
 const uiElements = {
     BDropdown,
@@ -74,10 +84,22 @@ export default {
     data: function () {
         return {
             enableCreatePdf: false,
-            enableCreateHtmlSnippet: false
+            enableCreateHtmlSnippet: false,
+            resources: [],
+            loading: false
         }
     },
     methods: {
+        fetchResources() {
+            this.loading = true;
+            axios.get('api/fetch-resources')
+                .then(res => res.data.resources)
+                .then((res) => {
+                    this.loading = false
+                    this.resources = res
+                })
+        },
+
         handleModal(id) {
             switch (id) {
                 case "create-pdf-resource":
@@ -101,7 +123,20 @@ export default {
                     this.$bvModal.hide(id)
                 })
             }
+        },
+
+        onChangeResource(resource, operation) {
+            let vm = this;
+            if (operation === "create")
+                this.resources.unshift(resource)
+            else if (operation === "edit") {
+                let index = vm.resources.findIndex(i => i.id === resource.id);
+                vm.resources.splice(index, 1, resource)
+            }
         }
+    },
+    mounted() {
+        this.fetchResources()
     }
 }
 </script>
