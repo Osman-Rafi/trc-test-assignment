@@ -127,11 +127,14 @@ export default {
 
         onChangeResource(resource, operation) {
             let vm = this;
+            const index = this.resources.findIndex(i => i.id === resource.id);
+
             if (operation === "create")
                 this.resources.unshift(resource)
             else if (operation === "edit") {
-                let index = vm.resources.findIndex(i => i.id === resource.id);
                 vm.resources.splice(index, 1, resource)
+            } else if (operation === "delete") {
+                vm.resources.splice(index, 1)
             }
         }
     },

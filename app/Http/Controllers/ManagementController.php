@@ -62,4 +62,10 @@ class ManagementController extends Controller
 
         return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
     }
+
+    public function destroyResource(Resources $resource)
+    {
+        $resource->delete();
+        return response(['message' => 'Resource deleted successfully']);
+    }
 }

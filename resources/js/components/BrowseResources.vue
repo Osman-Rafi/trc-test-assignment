@@ -26,9 +26,16 @@
                             </b-dropdown-item>
                         </template>
                         <b-dropdown-divider/>
+                        <b-dropdown-item variant="danger" v-b-modal.delete-resource @click="setDelete(resource)">
+                            Delete
+                        </b-dropdown-item>
                     </b-dropdown>
                 </template>
             </div>
+            <b-modal centered id="delete-resource" title="Delete Resource" ok-variant="danger" ok-title="Delete"
+                     button-size="sm" @ok="handDelete">
+                <p class="my-4">Are you sure to delete this resource ? </p>
+            </b-modal>
         </template>
         <template v-if="enableEditPdf">
             <create-pdf-resource
@@ -119,6 +126,24 @@ export default {
 
         onChangeResource(resource, operation) {
             this.$emit('on-change-resource', resource, operation)
+        },
+        setDelete(resource) {
+            this.resource = resource;
+        },
+        handDelete() {
+            const resource = this.resource;
+            axios.delete(`api/delete-resource/${resource.id}`)
+                .then(() => {
+                    this.$emit('on-change-resource', resource, 'delete')
+                })
+                .then(() => {
+                    this.$bvToast.toast('Resource deleted successfully', {
+                        title: "Deleted",
+                        toaster: 'b-toaster-bottom-left',
+                        solid: true,
+                        variant: 'danger'
+                    })
+                })
         }
     }
 }
