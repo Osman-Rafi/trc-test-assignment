@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateHtmlSnippetRequest;
 use App\Http\Requests\CreatePdfResourceRequest;
+use App\Http\Requests\UpdateHtmlSnippetRequest;
 use App\Http\Requests\UpdatePdfResourceRequest;
 use App\Resources;
 
@@ -29,7 +30,7 @@ class ManagementController extends Controller
 
     public function fetchResources()
     {
-        $resources = Resources::select('id', 'type', 'title', 'file', 'description', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
+        $resources = Resources::select('id', 'type', 'title', 'file', 'description', 'snippet', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'resources' => $resources
@@ -52,7 +53,6 @@ class ManagementController extends Controller
 
     public function updatePdfResource(UpdatePdfResourceRequest $request, Resources $resource)
     {
-        // saving request data to DB
         $resource->type = $request->type;
         $resource->title = $request->title;
 
@@ -67,5 +67,17 @@ class ManagementController extends Controller
     {
         $resource->delete();
         return response(['message' => 'Resource deleted successfully']);
+    }
+
+    public function updateHtmlSnippet(UpdateHtmlSnippetRequest $request, Resources $resource)
+    {
+        $resource->type = $request->type;
+        $resource->title = $request->title;
+        $resource->description = $request->description;
+        $resource->snippet = $request->snippet;
+
+        $resource->save();
+
+        return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
     }
 }

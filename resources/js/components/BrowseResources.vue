@@ -8,20 +8,23 @@
                 <resources-item :resource="resource"/>
                 <template v-if="canManage">
                     <b-dropdown class="position-absolute action-button"
-                                toggle-class="text-decoration-none action-button"
-                                menu-class="z-index-5" variant="outline-warning" no-caret dropleft>
+                                toggle-class="text-decoration-none action-button" menu-class="z-index-5"
+                                variant="outline-warning" no-caret dropleft>
                         <template #button-content>
                             Action
                             <b-icon-chevron-down/>
                         </template>
                         <template v-if="resource.type === 'pdf'">
-                            <b-dropdown-item variant="link"
-                                             @click="handleModal('create-pdf-resource');getResource(resource)">
+                            <b-dropdown-item
+                                variant="link"
+                                @click="handleModal('create-pdf-resource');getResource(resource)">
                                 Edit
                             </b-dropdown-item>
                         </template>
                         <template v-if="resource.type === 'html'">
-                            <b-dropdown-item variant="link" @click="handleModal('create-html-snippet')">
+                            <b-dropdown-item
+                                variant="link"
+                                @click="handleModal('create-html-snippet');getResource(resource)">
                                 Edit
                             </b-dropdown-item>
                         </template>
@@ -45,7 +48,14 @@
                 @on-change-resource="onChangeResource"
             />
         </template>
-        <!--    <create-html-snippet :resource="resource"/>-->
+        <template v-if="enableEditHtmlSnippet">
+            <create-html-snippet
+                :resource="resource"
+                operation="edit"
+                @toggle-modal="handleModal"
+                @on-change-resource="onChangeResource"
+            />
+        </template>
     </div>
 </template>
 
@@ -87,7 +97,9 @@ export default {
     data: function () {
         return {
             resource: {},
-            enableEditPdf: false
+            enableEditPdf: false,
+            enableEditHtmlSnippet: false,
+
         }
     },
     computed: {
@@ -103,8 +115,8 @@ export default {
                     this.toggleModal("create-pdf-resource", this.enableEditPdf)
                     break;
                 case "create-html-snippet":
-                    this.enableCreateHtmlSnippet = !this.enableCreateHtmlSnippet;
-                    this.toggleModal("create-html-snippet", this.enableCreateHtmlSnippet)
+                    this.enableEditHtmlSnippet = !this.enableEditHtmlSnippet;
+                    this.toggleModal("create-html-snippet", this.enableEditHtmlSnippet)
                     break;
             }
         },

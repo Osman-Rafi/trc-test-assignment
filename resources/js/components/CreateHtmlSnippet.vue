@@ -39,9 +39,8 @@
                     required
                 ></b-form-textarea>
             </b-form-group>
-            <b-form-group label="Paste Code snippet bellow"
-                          invalid-feedback="hgvhugv">
-                <PrismEditor @onChange="handlePrismChange"/>
+            <b-form-group label="Paste Code snippet bellow">
+                <PrismEditor :snippet="formData.snippet" @onChange="handlePrismChange"/>
                 <p v-if="snippetState === false" class="text-danger fs-5 font-weight-bold">Code snippet is required</p>
             </b-form-group>
         </b-form>
@@ -63,6 +62,7 @@ import {
     ToastPlugin
 } from "bootstrap-vue";
 import PrismEditor from "./PrismEditor";
+import {isEmpty} from "lodash-es";
 
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
@@ -74,6 +74,12 @@ export default {
     components: {
         ...uiComponents,
         PrismEditor
+    },
+    props: {
+        resource: {
+            type: Object
+        },
+        operation: {type: String, required: true}
     },
     data: function () {
         return {
@@ -124,23 +130,30 @@ export default {
                 return
             }
             this.saving = !this.saving;
-            axios.post('api/create-html-snippet', this.formData)
+
+            const method = this.operation === "create" ? 'post' : 'put';
+            const url = method === 'post' ? 'api/create-html-snippet' : `api/update-html-snippet/${this.formData.id}`;
+
+            axios({
+                method: method,
+                url: url,
+                data: this.formData
+            })
                 .then((res) => {
-                    if (res.status === 201) {
+                    this.$emit('on-change-resource', res.data.resource, this.operation)
+                    if (res.status) {
                         this.$nextTick(() => {
                             this.$bvModal.hide('create-html-snippet')
                         })
                     }
                 })
                 .then(() => {
-                    this.$bvToast.toast('Resources Created Successfully', {
+                    this.$bvToast.toast(`Resources  ${this.operation === 'create' ? "Created" : "Updated"} Successfully`, {
                         title: "Success !!",
-                        toaster: 'b-toaster-bottom-left',
+                        toaster: 'b-toaster-top-left',
                         solid: true,
-                        variant: 'success'
+                        variant: 'primary'
                     })
-                })
-                .then(() => {
                     this.resetModal()
                 })
                 .catch(error => {
@@ -154,9 +167,17 @@ export default {
                 })
 
             this.titleState = null
-            this.fileState = null
+            this.descriptionState = null
+            this.snippetState = null
             this.saving = !this.saving;
         }
     },
+    created() {
+        this.$nextTick(() => {
+            if (!isEmpty(this.resource)) {
+                this.formData = {...this.resource}
+            }
+        })
+    }
 }
 </script>

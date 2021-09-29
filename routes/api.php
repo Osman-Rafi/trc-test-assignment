@@ -22,4 +22,5 @@ Route::get('/fetch-resources', 'ManagementController@fetchResources');
 Route::post('/create-pdf-resource', 'ManagementController@createPdfResource');
 Route::post('/create-html-snippet', 'ManagementController@createHtmlSnippet');
 Route::post('/update-pdf-resource/{resource}', 'ManagementController@updatePdfResource');
+Route::put('/update-html-snippet/{resource}', 'ManagementController@updateHtmlSnippet');
 Route::delete('/delete-resource/{resource}', 'ManagementController@destroyResource');

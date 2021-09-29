@@ -81,7 +81,6 @@ export default {
             this.titleState = null
             this.fileState = null
             this.$emit("toggle-modal", "create-pdf-resource")
-            console.log("hello")
         },
         handleOk(bvModalEvt) {
             // Prevent modal from closing

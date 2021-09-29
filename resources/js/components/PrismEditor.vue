@@ -16,10 +16,12 @@ export default {
     components: {
         PrismEditor,
     },
-    // data: () => ({code: 'console.log("Hello World")'}),
+    props: {
+        snippet: {type: String}
+    },
     data: function () {
         return {
-            code: ""
+            code: this.snippet.length ? this.snippet.slice() : ""
         }
     },
     methods: {

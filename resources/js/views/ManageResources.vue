@@ -28,7 +28,7 @@
                     />
                 </template>
                 <template v-if="enableCreateHtmlSnippet">
-                    <create-html-snippet @toggle-modal="handleModal"/>
+                    <create-html-snippet @toggle-modal="handleModal" operation="create"/>
                 </template>
             </b-card>
             <div>
