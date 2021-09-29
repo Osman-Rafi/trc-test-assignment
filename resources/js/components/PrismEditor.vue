@@ -1,5 +1,5 @@
 <template>
-    <prism-editor class="my-editor" v-model="code" :highlight="highlighter" line-numbers></prism-editor>
+    <prism-editor class="my-editor" v-model="code" :highlight="highlighter" :readonly="readonly" line-numbers></prism-editor>
 </template>
 
 <script>
@@ -17,7 +17,8 @@ export default {
         PrismEditor,
     },
     props: {
-        snippet: {type: String}
+        snippet: {type: String},
+        readonly: {type: Boolean, default: false}
     },
     data: function () {
         return {
