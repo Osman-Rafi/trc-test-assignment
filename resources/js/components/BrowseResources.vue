@@ -5,7 +5,7 @@
         </template>
         <template v-else>
             <div v-for="resource in allResources" :key="resource.id" class="position-relative">
-                <resources-item :resource="resource"/>
+                <resource-details :resource="resource"/>
                 <template v-if="canManage">
                     <b-dropdown class="position-absolute action-button"
                                 toggle-class="text-decoration-none action-button" menu-class="z-index-5"
@@ -25,6 +25,13 @@
                             <b-dropdown-item
                                 variant="link"
                                 @click="handleModal('create-html-snippet');getResource(resource)">
+                                Edit
+                            </b-dropdown-item>
+                        </template>
+                        <template v-if="resource.type === 'link'">
+                            <b-dropdown-item
+                                variant="link"
+                                @click="handleModal('create-link-resource');getResource(resource)">
                                 Edit
                             </b-dropdown-item>
                         </template>
@@ -56,6 +63,14 @@
                 @on-change-resource="onChangeResource"
             />
         </template>
+        <template v-if="enableEditLink">
+            <create-edit-link-resource
+                :resource="resource"
+                operation="edit"
+                @toggle-modal="handleModal"
+                @on-change-resource="onChangeResource"
+            />
+        </template>
     </div>
 </template>
 
@@ -72,9 +87,10 @@ import {
     ModalPlugin,
     VBModal
 } from "bootstrap-vue";
-import ResourcesItem from "./ResourcesItemPdf";
+import ResourceDetails from "./ResourceDetails";
 import CreatePdfResource from "./CreatePdfResource";
 import CreateHtmlSnippet from "./CreateHtmlSnippet";
+import CreateEditLinkResource from "./CreateEditLinkResource";
 
 Vue.use(ModalPlugin)
 
@@ -84,10 +100,11 @@ const uiComponents = {
 export default {
     name: "BrowseResources",
     components: {
+        CreateEditLinkResource,
+        ResourceDetails,
         CreateHtmlSnippet,
         CreatePdfResource,
         ...uiComponents,
-        ResourcesItem
     },
     props: {
         canManage: {type: Boolean, required: true},
@@ -99,7 +116,7 @@ export default {
             resource: {},
             enableEditPdf: false,
             enableEditHtmlSnippet: false,
-
+            enableEditLink: false,
         }
     },
     computed: {
@@ -117,6 +134,10 @@ export default {
                 case "create-html-snippet":
                     this.enableEditHtmlSnippet = !this.enableEditHtmlSnippet;
                     this.toggleModal("create-html-snippet", this.enableEditHtmlSnippet)
+                    break;
+                case "create-link-resource":
+                    this.enableEditLink = !this.enableEditLink;
+                    this.toggleModal("create-link-resource", this.enableEditLink)
                     break;
             }
         },

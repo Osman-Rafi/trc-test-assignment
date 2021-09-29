@@ -14,7 +14,9 @@
           <template v-if="resource.type === 'pdf'">
             <b-avatar rounded variant="info" icon="file-earmark-text"></b-avatar>
           </template>
-          <template v-if="resource.type === 'link'">External Link</template>
+            <template v-if="resource.type === 'link'">
+                <b-avatar rounded variant="success" icon="link45deg"></b-avatar>
+            </template>
         </b-col>
         <b-col>
           <b-card-body class="mb-3">
@@ -26,6 +28,9 @@
                 button to download the attachment.
               </template>
               <template v-if="resource.type==='html'">{{ resource.description.substring(0, 200) }}</template>
+                <template v-if="resource.type === 'link'">
+                    <a class="btn btn-outline-dark btn-sm fs-5" :target="resource.new_tab === 1 && '_blank'" :href="resource.url">Visit URL</a>
+                </template>
             </b-card-text>
           </b-card-body>
         </b-col>
@@ -42,12 +47,12 @@
 </template>
 
 <script>
-import {BAvatar, BBadge, BButton, BCard, BCardBody, BCardText, BCol, BIcon, BIconDownload, BRow, BIconFileEarmarkText} from "bootstrap-vue"
+import {BAvatar, BBadge, BButton, BCard, BCardBody, BCardText, BCol, BIcon, BIconDownload, BRow, BIconFileEarmarkText,BIconLink45deg} from "bootstrap-vue"
 import axios from "axios";
 
 export default {
-  name: "ResourcesItemPdf",
-  components: {BCard, BRow, BCol, BCardBody, BAvatar, BCardText, BButton, BIcon, BIconDownload, BBadge,BIconFileEarmarkText},
+  name: "ResourceDetails",
+  components: {BCard, BRow, BCol, BCardBody, BAvatar, BCardText, BButton, BIcon, BIconDownload, BBadge,BIconFileEarmarkText,BIconLink45deg},
   props: {
     resource: {type: Object, required: true},
   },

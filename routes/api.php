@@ -23,4 +23,6 @@ Route::post('/create-pdf-resource', 'ManagementController@createPdfResource');
 Route::post('/create-html-snippet', 'ManagementController@createHtmlSnippet');
 Route::post('/update-pdf-resource/{resource}', 'ManagementController@updatePdfResource');
 Route::put('/update-html-snippet/{resource}', 'ManagementController@updateHtmlSnippet');
+Route::post('/create-link-resource', 'ManagementController@createLinkResource');
+Route::put('/update-link-resource/{resource}', 'ManagementController@updateLinkResource');
 Route::delete('/delete-resource/{resource}', 'ManagementController@destroyResource');

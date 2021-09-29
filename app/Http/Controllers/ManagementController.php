@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateHtmlSnippetRequest;
+use App\Http\Requests\CreateLinkResourceRequest;
 use App\Http\Requests\CreatePdfResourceRequest;
 use App\Http\Requests\UpdateHtmlSnippetRequest;
+use App\Http\Requests\UpdateLinkResourceRequest;
 use App\Http\Requests\UpdatePdfResourceRequest;
 use App\Resources;
 
@@ -30,7 +32,7 @@ class ManagementController extends Controller
 
     public function fetchResources()
     {
-        $resources = Resources::select('id', 'type', 'title', 'file', 'description', 'snippet', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
+        $resources = Resources::select('id', 'type', 'title', 'file', 'description', 'snippet', 'url', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'resources' => $resources
@@ -39,16 +41,16 @@ class ManagementController extends Controller
 
     public function createHtmlSnippet(CreateHtmlSnippetRequest $request)
     {
-        $resources = new Resources();
+        $resource = new Resources();
 
-        $resources->type = "html";
-        $resources->title = $request->title;
-        $resources->description = $request->description;
-        $resources->snippet = $request->snippet;
+        $resource->type = "html";
+        $resource->title = $request->title;
+        $resource->description = $request->description;
+        $resource->snippet = $request->snippet;
 
-        $resources->save();
+        $resource->save();
 
-        return response(['message' => 'Resource created successfully'], 201);
+        return response(['message' => 'Resource created successfully', 'resource' => $resource], 201);
     }
 
     public function updatePdfResource(UpdatePdfResourceRequest $request, Resources $resource)
@@ -75,6 +77,32 @@ class ManagementController extends Controller
         $resource->title = $request->title;
         $resource->description = $request->description;
         $resource->snippet = $request->snippet;
+
+        $resource->save();
+
+        return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
+    }
+
+    public function createLinkResource(CreateLinkResourceRequest $request)
+    {
+        $resource = new Resources();
+
+        $resource->type = $request->type;
+        $resource->title = $request->title;
+        $resource->url = $request->url;
+        $resource->new_tab = $request->newTab;
+
+        $resource->save();
+
+        return response(['message' => 'Resource created successfully', 'resource' => $resource], 201);
+    }
+
+    public function updateLinkResource(UpdateLinkResourceRequest $request, Resources $resource)
+    {
+        $resource->type = $request->type;
+        $resource->title = $request->title;
+        $resource->url = $request->url;
+        $resource->new_tab = $request->newTab;
 
         $resource->save();
 

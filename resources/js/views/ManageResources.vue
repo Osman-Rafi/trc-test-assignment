@@ -15,7 +15,7 @@
                         <b-icon icon="code-slash" variant="dark"/>
                         <span class="ml-1">HTML Snippet</span>
                     </b-dropdown-item>
-                    <b-dropdown-item v-b-modal.create-link-resource>
+                    <b-dropdown-item @click="handleModal('create-link-resource')">
                         <b-icon icon="link45deg" variant="dark"/>
                         <span class="ml-1">Link</span>
                     </b-dropdown-item>
@@ -28,7 +28,18 @@
                     />
                 </template>
                 <template v-if="enableCreateHtmlSnippet">
-                    <create-html-snippet @toggle-modal="handleModal" operation="create"/>
+                    <create-html-snippet
+                        operation="create"
+                        @toggle-modal="handleModal"
+                        @on-change-resource="onChangeResource"
+                    />
+                </template>
+                <template v-if="enableCreateLink">
+                    <create-edit-link-resource
+                        operation="create"
+                        @toggle-modal="handleModal"
+                        @on-change-resource="onChangeResource"
+                    />
                 </template>
             </b-card>
             <div>
@@ -60,6 +71,7 @@ import CreatePdfResource from "../components/CreatePdfResource";
 import BrowseResources from "../components/BrowseResources";
 import CreateHtmlSnippet from "../components/CreateHtmlSnippet";
 import axios from "axios";
+import CreateEditLinkResource from "../components/CreateEditLinkResource";
 
 const uiElements = {
     BDropdown,
@@ -76,6 +88,7 @@ const uiElements = {
 export default {
     name: "ManageResources",
     components: {
+        CreateEditLinkResource,
         CreateHtmlSnippet,
         ...uiElements,
         CreatePdfResource,
@@ -85,6 +98,7 @@ export default {
         return {
             enableCreatePdf: false,
             enableCreateHtmlSnippet: false,
+            enableCreateLink: false,
             resources: [],
             loading: false
         }
@@ -109,6 +123,10 @@ export default {
                 case "create-html-snippet":
                     this.enableCreateHtmlSnippet = !this.enableCreateHtmlSnippet;
                     this.toggleModal("create-html-snippet", this.enableCreateHtmlSnippet)
+                    break;
+                case "create-link-resource":
+                    this.enableCreateLink = !this.enableCreateLink;
+                    this.toggleModal("create-link-resource", this.enableCreateLink)
                     break;
             }
         },
