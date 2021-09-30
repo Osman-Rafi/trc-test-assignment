@@ -112,7 +112,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -194,7 +193,7 @@ var uiComponents = {
         return;
       }
 
-      this.saving = !this.saving;
+      this.saving = true;
       var method = this.operation === "create" ? 'post' : 'put';
       var url = method === 'post' ? 'api/create-html-snippet' : "api/update-html-snippet/".concat(this.formData.id);
       axios({
@@ -217,6 +216,8 @@ var uiComponents = {
           variant: 'primary'
         });
 
+        _this.saving = false;
+
         _this.resetModal();
       })["catch"](function (error) {
         _this.$bvToast.toast('Something went wrong!', {
@@ -227,11 +228,11 @@ var uiComponents = {
         });
 
         console.error(error);
+        _this.saving = false;
       });
       this.titleState = null;
       this.descriptionState = null;
       this.snippetState = null;
-      this.saving = !this.saving;
     }
   },
   created: function created() {
@@ -315,6 +316,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -328,7 +336,8 @@ var uiComponents = {
   BFormInput: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormInput"],
   BToast: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BToast"],
   BFormCheckbox: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormCheckbox"],
-  BFormInvalidFeedback: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormInvalidFeedback"]
+  BFormInvalidFeedback: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormInvalidFeedback"],
+  BSpinner: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BSpinner"]
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateEditLinkResource",
@@ -351,7 +360,8 @@ var uiComponents = {
         type: "link"
       },
       titleState: null,
-      urlState: null
+      urlState: null,
+      saving: false
     };
   },
   methods: {
@@ -382,7 +392,8 @@ var uiComponents = {
     handleSubmit: function handleSubmit() {
       var _this = this;
 
-      // Exit when the form isn't valid
+      this.saving = true; // Exit when the form isn't valid
+
       if (!this.checkFormValidity()) {
         return;
       }
@@ -409,6 +420,8 @@ var uiComponents = {
           variant: 'primary'
         });
 
+        _this.saving = false;
+
         _this.resetModal();
       })["catch"](function (error) {
         _this.$bvToast.toast('Something went wrong!', {
@@ -419,6 +432,7 @@ var uiComponents = {
         });
 
         console.error(error);
+        _this.saving = false;
       });
       this.titleState = null;
       this.fileState = null;
@@ -503,6 +517,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -516,7 +537,8 @@ var uiComponents = {
   BFormInput: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormInput"],
   BFormFile: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormFile"],
   BToast: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BToast"],
-  BFormInvalidFeedback: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormInvalidFeedback"]
+  BFormInvalidFeedback: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BFormInvalidFeedback"],
+  BSpinner: bootstrap_vue__WEBPACK_IMPORTED_MODULE_1__["BSpinner"]
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateEditPdfResource",
@@ -536,7 +558,7 @@ var uiComponents = {
       file: null,
       titleState: null,
       fileState: null,
-      test: ""
+      saving: false
     };
   },
   methods: {
@@ -568,6 +590,7 @@ var uiComponents = {
         return;
       }
 
+      this.saving = true;
       var formData = new FormData();
       formData.append('title', this.title);
       formData.append('file', this.file);
@@ -591,6 +614,8 @@ var uiComponents = {
         });
 
         _this.resetModal();
+
+        _this.saving = false;
       })["catch"](function (error) {
         var errors = error.response.data.errors;
 
@@ -614,6 +639,8 @@ var uiComponents = {
           solid: true,
           variant: 'danger'
         });
+
+        _this.saving = false;
       });
       this.titleState = null;
       this.fileState = null;
@@ -1507,14 +1534,11 @@ var render = function() {
               _vm.saving
                 ? [
                     _c("b-spinner", {
-                      attrs: {
-                        small: "",
-                        label: "Loading...",
-                        variant: "light"
-                      }
-                    })
+                      attrs: { small: "", label: "Loading..." }
+                    }),
+                    _vm._v("\n            Saving\n        ")
                   ]
-                : [_vm._v("\n            Save\n        ")]
+                : [_vm._v("Save")]
             ]
           },
           proxy: true
@@ -1540,7 +1564,7 @@ var render = function() {
               _c("b-form-input", {
                 attrs: {
                   id: "title",
-                  type: "email",
+                  type: "text",
                   placeholder: "i.e. Why Vue is awesome !",
                   required: "",
                   state: _vm.titleState,
@@ -1654,9 +1678,28 @@ var render = function() {
         cancelTitle: "Discard",
         okTitle: "Save Post"
       },
-      on: { ok: _vm.handleOk, cancel: _vm.resetModal, close: _vm.resetModal }
+      on: { ok: _vm.handleOk, cancel: _vm.resetModal, close: _vm.resetModal },
+      scopedSlots: _vm._u([
+        {
+          key: "modal-ok",
+          fn: function() {
+            return [
+              _vm.saving
+                ? [
+                    _c("b-spinner", {
+                      attrs: { small: "", label: "Loading..." }
+                    }),
+                    _vm._v("\n            Saving\n        ")
+                  ]
+                : [_vm._v("Save")]
+            ]
+          },
+          proxy: true
+        }
+      ])
     },
     [
+      _vm._v(" "),
       _c(
         "b-form",
         { ref: "form", attrs: { enctype: "multipart/form-data" } },
@@ -1777,9 +1820,28 @@ var render = function() {
         cancelTitle: "Discard",
         okTitle: "Save Post"
       },
-      on: { ok: _vm.handleOk, cancel: _vm.resetModal, close: _vm.resetModal }
+      on: { ok: _vm.handleOk, cancel: _vm.resetModal, close: _vm.resetModal },
+      scopedSlots: _vm._u([
+        {
+          key: "modal-ok",
+          fn: function() {
+            return [
+              _vm.saving
+                ? [
+                    _c("b-spinner", {
+                      attrs: { small: "", label: "Loading..." }
+                    }),
+                    _vm._v("\n            Saving\n        ")
+                  ]
+                : [_vm._v("Save")]
+            ]
+          },
+          proxy: true
+        }
+      ])
     },
     [
+      _vm._v(" "),
       _c(
         "b-form",
         { ref: "form", attrs: { enctype: "multipart/form-data" } },
@@ -1797,7 +1859,7 @@ var render = function() {
               _c("b-form-input", {
                 attrs: {
                   id: "title",
-                  type: "email",
+                  type: "text",
                   placeholder: "i.e. Why Vue is awesome !",
                   required: "",
                   size: "sm",

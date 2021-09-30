@@ -3,6 +3,13 @@
              @cancel="resetModal" @close="resetModal"
              button-size="sm"
              cancelTitle="Discard" okTitle="Save Post">
+        <template #modal-ok>
+            <template v-if="saving">
+                <b-spinner small label="Loading..."></b-spinner>
+                Saving
+            </template>
+            <template v-else>Save</template>
+        </template>
         <b-form ref="form" enctype="multipart/form-data">
             <b-form-group
                 label="Title"
@@ -47,14 +54,14 @@
 
 <script>
 import Vue from "vue";
-import {BForm, BFormCheckbox, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin,BFormInvalidFeedback} from "bootstrap-vue";
+import {BForm, BFormCheckbox, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin,BFormInvalidFeedback,BSpinner} from "bootstrap-vue";
 import axios from "axios";
 import {isEmpty} from 'lodash-es';
 
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
 
-const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BToast, BFormCheckbox,BFormInvalidFeedback}
+const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BToast, BFormCheckbox,BFormInvalidFeedback,BSpinner}
 
 export default {
     name: "CreateEditLinkResource",
@@ -77,7 +84,7 @@ export default {
             },
             titleState: null,
             urlState: null,
-
+            saving: false
         }
     },
     methods: {
@@ -106,6 +113,7 @@ export default {
             this.handleSubmit()
         },
         handleSubmit() {
+            this.saving = true;
             // Exit when the form isn't valid
             if (!this.checkFormValidity()) {
                 return
@@ -134,6 +142,7 @@ export default {
                         solid: true,
                         variant: 'primary'
                     })
+                    this.saving = false
                     this.resetModal()
                 })
                 .catch(error => {
@@ -144,6 +153,7 @@ export default {
                         variant: 'danger'
                     })
                     console.error(error)
+                    this.saving = false
                 })
 
             this.titleState = null

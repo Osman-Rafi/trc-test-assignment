@@ -3,6 +3,13 @@
              @cancel="resetModal" @close="resetModal"
              button-size="sm"
              cancelTitle="Discard" okTitle="Save Post">
+        <template #modal-ok>
+            <template v-if="saving">
+                <b-spinner small label="Loading..."></b-spinner>
+                Saving
+            </template>
+            <template v-else>Save</template>
+        </template>
         <b-form ref="form" enctype="multipart/form-data">
             <b-form-group
                 id="input-group-1"
@@ -11,7 +18,7 @@
             >
                 <b-form-input
                     id="title"
-                    type="email"
+                    type="text"
                     placeholder="i.e. Why Vue is awesome !"
                     required
                     size="sm"
@@ -44,14 +51,25 @@
 
 <script>
 import Vue from "vue";
-import {BForm, BFormFile, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin,BFormInvalidFeedback} from "bootstrap-vue";
+import {
+    BForm,
+    BFormFile,
+    BFormGroup,
+    BFormInput,
+    BFormInvalidFeedback,
+    BModal,
+    BSpinner,
+    BToast,
+    ModalPlugin,
+    ToastPlugin
+} from "bootstrap-vue";
 import axios from "axios";
 import {isEmpty} from 'lodash-es';
 
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
 
-const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast,BFormInvalidFeedback}
+const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast, BFormInvalidFeedback, BSpinner}
 
 export default {
     name: "CreateEditPdfResource",
@@ -70,7 +88,7 @@ export default {
             file: null,
             titleState: null,
             fileState: null,
-            test: ""
+            saving: false
         }
     },
     methods: {
@@ -99,6 +117,7 @@ export default {
             if (!this.checkFormValidity()) {
                 return
             }
+            this.saving = true;
             const formData = new FormData();
             formData.append('title', this.title)
             formData.append('file', this.file)
@@ -126,6 +145,7 @@ export default {
                         variant: 'primary'
                     })
                     this.resetModal()
+                    this.saving = false
                 })
                 .catch(error => {
                     const errors = error.response.data.errors;
@@ -147,7 +167,7 @@ export default {
                         solid: true,
                         variant: 'danger'
                     })
-
+                    this.saving = false
                 })
 
             this.titleState = null

@@ -5,11 +5,10 @@
              cancelTitle="Discard">
         <template #modal-ok>
             <template v-if="saving">
-                <b-spinner small label="Loading..." variant="light"></b-spinner>
+                <b-spinner small label="Loading..."></b-spinner>
+                Saving
             </template>
-            <template v-else>
-                Save
-            </template>
+            <template v-else>Save</template>
         </template>
         <b-form ref="form" enctype="multipart/form-data">
             <b-form-group
@@ -19,7 +18,7 @@
             >
                 <b-form-input
                     id="title"
-                    type="email"
+                    type="text"
                     placeholder="i.e. Why Vue is awesome !"
                     required
                     v-model="formData.title"
@@ -132,7 +131,7 @@ export default {
             if (!this.checkFormValidity()) {
                 return
             }
-            this.saving = !this.saving;
+            this.saving = true;
 
             const method = this.operation === "create" ? 'post' : 'put';
             const url = method === 'post' ? 'api/create-html-snippet' : `api/update-html-snippet/${this.formData.id}`;
@@ -157,6 +156,7 @@ export default {
                         solid: true,
                         variant: 'primary'
                     })
+                    this.saving = false;
                     this.resetModal()
                 })
                 .catch(error => {
@@ -167,12 +167,12 @@ export default {
                         variant: 'danger'
                     })
                     console.error(error)
+                    this.saving = false;
                 })
 
             this.titleState = null
             this.descriptionState = null
             this.snippetState = null
-            this.saving = !this.saving;
         }
     },
     created() {
