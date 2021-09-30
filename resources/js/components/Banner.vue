@@ -2,7 +2,14 @@
     <div class="banner-container">
         <div class="banner-admin text-center h-100 text-white">
             <div class="banner-text">
-                <h2 class="banner-title"><span class="font-weight-bold">The Remote Company</span> Test Assignment
+                <h2 class="banner-title">
+                    <template v-if="!title">
+                        <span class="font-weight-bold">The Remote Company</span>
+                        Test Assignment
+                    </template>
+                    <template>
+                        {{ title }}
+                    </template>
                 </h2>
                 <p class="banner-sub">{{ bannerSub }}</p>
             </div>
@@ -14,6 +21,7 @@
 export default {
     name: "Banner",
     props: {
+        title: {type: String},
         bannerSub: {type: String}
     }
 }
@@ -25,7 +33,7 @@ export default {
 }
 
 .banner-admin {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://i.im.ge/2021/09/30/TzAt08.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://i.ibb.co/2k4KLrz/TzAt08.jpg");
     height: 50%;
     background-position: center;
     background-repeat: no-repeat;

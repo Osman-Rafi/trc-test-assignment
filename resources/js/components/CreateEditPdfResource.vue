@@ -18,6 +18,7 @@
                     v-model="title"
                     :state="titleState"
                 ></b-form-input>
+                <b-form-invalid-feedback :state="titleState">This field is required</b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
                 label="File"
@@ -31,9 +32,11 @@
                     drop-placeholder="Drop file here..."
                     accept="application/pdf"
                 ></b-form-file>
+
                 <div class="mt-3" v-if="file"><span class="font-italic">Selected file:</span>
                     {{ file ? file.name : '' }}
                 </div>
+                <b-form-invalid-feedback :state="fileState">This field is required</b-form-invalid-feedback>
             </b-form-group>
         </b-form>
     </b-modal>
@@ -41,14 +44,14 @@
 
 <script>
 import Vue from "vue";
-import {BForm, BFormFile, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin} from "bootstrap-vue";
+import {BForm, BFormFile, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin,BFormInvalidFeedback} from "bootstrap-vue";
 import axios from "axios";
 import {isEmpty} from 'lodash-es';
 
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
 
-const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast}
+const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast,BFormInvalidFeedback}
 
 export default {
     name: "CreateEditPdfResource",

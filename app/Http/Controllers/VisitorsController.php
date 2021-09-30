@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Resources;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class VisitorsController extends Controller
 {
@@ -13,5 +16,10 @@ class VisitorsController extends Controller
         return response()->json([
             'resources' => $resources
         ]);
+    }
+
+    public function downloadPdfResource($filepath)
+    {
+        return Storage::disk('public')->download('/files/' . $filepath,'download.pdf');
     }
 }

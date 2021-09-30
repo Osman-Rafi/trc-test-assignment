@@ -17,6 +17,7 @@
                     v-model="formData.title"
                     :state="titleState"
                 ></b-form-input>
+                <b-form-invalid-feedback :state="titleState">This field is required</b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
                 label="URL"
@@ -31,6 +32,7 @@
                     v-model="formData.url"
                     :state="urlState"
                 ></b-form-input>
+                <b-form-invalid-feedback :state="urlState">This field is required</b-form-invalid-feedback>
             </b-form-group>
             <b-form-checkbox
                 :value="1"
@@ -45,14 +47,14 @@
 
 <script>
 import Vue from "vue";
-import {BForm, BFormCheckbox, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin} from "bootstrap-vue";
+import {BForm, BFormCheckbox, BFormGroup, BFormInput, BModal, BToast, ModalPlugin, ToastPlugin,BFormInvalidFeedback} from "bootstrap-vue";
 import axios from "axios";
 import {isEmpty} from 'lodash-es';
 
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
 
-const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BToast, BFormCheckbox}
+const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BToast, BFormCheckbox,BFormInvalidFeedback}
 
 export default {
     name: "CreateEditLinkResource",

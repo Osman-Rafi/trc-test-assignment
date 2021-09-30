@@ -39,8 +39,13 @@
                             <template v-if="resource.type=='html'">
                                 <b-collapse id="html-details" class="mt-2">
                                     {{ description }}
-                                    <b-card class="mt-3">
+                                    <b-card class="mt-3" body-class="position-relative">
                                         <prism-editor :snippet="resource.snippet" :readonly="true"/>
+                                        <b-button variant="link" @click="copyCodeToClipBoard"
+                                                  class="text-dark position-absolute copy-button" v-b-tooltip.hover
+                                                  :title="snippetCopyTooltipTitle">
+                                            <b-icon icon="clipboard"></b-icon>
+                                        </b-button>
                                     </b-card>
                                 </b-collapse>
                             </template>
@@ -66,6 +71,8 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios";
+import PrismEditor from "./PrismEditor";
 import {
     BAvatar,
     BBadge,
@@ -76,16 +83,23 @@ import {
     BCol,
     BCollapse,
     BIcon,
+    BIconClipboard,
     BIconDownload,
     BIconFileEarmarkText,
     BIconLink45deg,
     BRow,
-    CollapsePlugin
+    BToast,
+    CollapsePlugin,
+    ToastPlugin,
+    VBTooltip,
+    VBTooltipPlugin
 } from "bootstrap-vue"
-import axios from "axios";
-import PrismEditor from "./PrismEditor";
 
 Vue.use(CollapsePlugin)
+Vue.use(ToastPlugin)
+Vue.use(VBTooltipPlugin)
+Vue.directive('b-tooltip', VBTooltip)
+
 export default {
     name: "ResourceDetails",
     components: {
@@ -103,14 +117,23 @@ export default {
         BIconFileEarmarkText,
         BIconLink45deg,
         BCollapse,
+        BToast,
+        BIconClipboard
     },
     props: {
         resource: {type: Object, required: true},
     },
+    data: function () {
+        return {
+            detailsCollapseOpen: false,
+            snippetCopyTooltipTitle: "Copy to Clipboard"
+        }
+    },
     methods: {
         downloadAttachment(file) {
+            const url = file.slice(6)
             axios({
-                url: 'http://localhost:8000/files/owwhz8JkFjyTuE4SNMytTKjXbVWLLIkaPnaSUF9b.pdf',
+                url: `/api/download-pdf-resource/${url}`,
                 method: 'GET',
                 responseType: 'blob', // important
             }).then((response) => {
@@ -129,21 +152,31 @@ export default {
         },
         toggleCollapse() {
             this.detailsCollapseOpen = !this.detailsCollapseOpen
+        },
+        async copyCodeToClipBoard() {
+            try {
+                await navigator.clipboard.writeText(this.resource.snippet);
+                this.snippetCopyTooltipTitle = "Copied !"
+            } catch ($e) {
+                this.$bvToast.toast("Error", {
+                    title: "Can't copy",
+                    toaster: 'b-toaster-bottom-left',
+                    solid: true,
+                    variant: 'danger',
+                })
+            }
+            setTimeout(() => {
+                this.snippetCopyTooltipTitle = "Copy to Clipboard";
+            }, 2000)
         }
     },
-    data: function () {
-        return {
-            detailsCollapseOpen: false
-        }
-    },
-
     computed: {
         description() {
             if (this.resource.description.length > 200 && !this.detailsCollapseOpen)
                 return this.resource.description.substring(0, 200) + '...';
             return this.resource.description;
-        }
-    }
+        },
+    },
 }
 </script>
 
@@ -170,6 +203,11 @@ export default {
     z-index: 10;
     top: -10px;
     left: 8px;
+}
+
+.copy-button {
+    top: 21px;
+    right: 29px;
 }
 
 .bg-purple {

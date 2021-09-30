@@ -1,5 +1,6 @@
 <template>
-    <prism-editor class="my-editor" v-model="code" :highlight="highlighter" :readonly="readonly" line-numbers></prism-editor>
+    <prism-editor class="my-editor" v-model="code" :highlight="highlighter" :readonly="readonly"
+                  line-numbers></prism-editor>
 </template>
 
 <script>
@@ -33,8 +34,12 @@ export default {
     watch: {
         code: function (val) {
             this.$emit('onChange', val)
+        },
+        snippet: function (newVal, oldVal) {
+            if (newVal !== oldVal)
+                this.code = this.snippet
         }
-    }
+    },
 };
 </script>
 

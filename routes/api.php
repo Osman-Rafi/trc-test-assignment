@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('/create-pdf-resource', 'ManagementController@createPdfResource');
 Route::post('/update-pdf-resource/{resource}', 'ManagementController@updatePdfResource');
+Route::get('/download-pdf-resource/{filePath}', 'VisitorsController@downloadPdfResource');
 /*
 |--------------------------------------------------------------------------
 | HTML Resource

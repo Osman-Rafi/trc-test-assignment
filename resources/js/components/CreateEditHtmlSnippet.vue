@@ -26,6 +26,7 @@
                     :state="titleState"
                     size="sm"
                 ></b-form-input>
+                <b-form-invalid-feedback :state="titleState">This field is required</b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
                 label="Description">
@@ -38,6 +39,7 @@
                     :state="descriptionState"
                     required
                 ></b-form-textarea>
+                <b-form-invalid-feedback :state="descriptionState">This field is required</b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="Paste Code snippet bellow">
                 <PrismEditor :snippet="formData.snippet" @onChange="handlePrismChange"/>
@@ -58,6 +60,7 @@ import {
     BModal,
     BSpinner,
     BToast,
+    BFormInvalidFeedback,
     ModalPlugin,
     ToastPlugin
 } from "bootstrap-vue";
@@ -67,7 +70,7 @@ import {isEmpty} from "lodash-es";
 Vue.use(ModalPlugin)
 Vue.use(ToastPlugin)
 
-const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast, BFormTextarea, BSpinner}
+const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast, BFormTextarea, BSpinner,BFormInvalidFeedback}
 
 export default {
     name: "CreateEditHtmlSnippet",

@@ -16,6 +16,10 @@ const routes = [
         path:'/browse-resources',
         component: () => import("./views/BrowseResources")
     },
+    {
+        path:'*',
+        component: () => import("./components/NotFound")
+    },
 
 ]
 export default new VueRouter({
