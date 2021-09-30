@@ -29,7 +29,7 @@
             </b-form-group>
             <b-form-group
                 label="File"
-                description="Only PDF if accepted"
+                description="Only PDF is accepted"
             >
                 <b-form-file
                     v-model="file"

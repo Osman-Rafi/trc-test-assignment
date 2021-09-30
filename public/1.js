@@ -9,6 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap-vue */ "./node_modules/bootstrap-vue/esm/index.js");
 //
 //
 //
@@ -28,6 +29,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Banner",
   props: {
@@ -36,7 +41,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     bannerSub: {
       type: String
+    },
+    loggedInAs: {
+      type: String
     }
+  },
+  components: {
+    BBadge: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BBadge"]
   }
 });
 
@@ -1487,7 +1498,17 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _c("p", { staticClass: "banner-sub" }, [_vm._v(_vm._s(_vm.bannerSub))])
+        _c("p", { staticClass: "banner-sub" }, [_vm._v(_vm._s(_vm.bannerSub))]),
+        _vm._v(" "),
+        _c(
+          "div",
+          [
+            _c("b-badge", { staticClass: "p-1", attrs: { variant: "info" } }, [
+              _vm._v(_vm._s(_vm.loggedInAs))
+            ])
+          ],
+          1
+        )
       ])
     ])
   ])
@@ -1885,7 +1906,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "b-form-group",
-            { attrs: { label: "File", description: "Only PDF if accepted" } },
+            { attrs: { label: "File", description: "Only PDF is accepted" } },
             [
               _c("b-form-file", {
                 attrs: {

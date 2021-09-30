@@ -254,7 +254,10 @@ var render = function() {
     "div",
     [
       _c("Banner", {
-        attrs: { "banner-sub": "Manage & Browse resources from here !" }
+        attrs: {
+          "banner-sub": "Manage & Browse resources from here !",
+          "logged-in-as": "Logged in as Admin"
+        }
       }),
       _vm._v(" "),
       _c(

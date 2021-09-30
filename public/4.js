@@ -86,7 +86,12 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("Banner", { attrs: { "banner-sub": "Browse resources from here !" } }),
+      _c("Banner", {
+        attrs: {
+          "banner-sub": "Browse resources from here !",
+          "logged-in-as": "Logged in as Visitor"
+        }
+      }),
       _vm._v(" "),
       _c(
         "b-container",

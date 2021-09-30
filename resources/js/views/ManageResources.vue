@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Banner banner-sub="Manage & Browse resources from here !"/>
+        <Banner banner-sub="Manage & Browse resources from here !" logged-in-as="Logged in as Admin"/>
         <b-container>
             <b-row class="justify-content-center mt-5">
                 <b-col sm="12" lg="10">

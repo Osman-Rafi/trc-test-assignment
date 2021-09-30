@@ -12,18 +12,25 @@
                     </template>
                 </h2>
                 <p class="banner-sub">{{ bannerSub }}</p>
+                <div>
+                    <b-badge class="p-1" variant="info">{{loggedInAs}}</b-badge>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import {BBadge} from "bootstrap-vue"
+
 export default {
     name: "Banner",
     props: {
         title: {type: String},
-        bannerSub: {type: String}
-    }
+        bannerSub: {type: String},
+        loggedInAs: {type:String}
+    },
+    components: {BBadge}
 }
 </script>
 
