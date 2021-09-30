@@ -10,7 +10,7 @@ class UpdatePdfResourceRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required',
+            'type' => 'required | in:pdf',
             'title' => 'required',
             'file' => 'required | mimes:pdf'
         ];
