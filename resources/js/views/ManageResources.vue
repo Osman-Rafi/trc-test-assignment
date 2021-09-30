@@ -1,63 +1,69 @@
 <template>
-    <b-row class="justify-content-center mt-5">
-        <b-col sm="12" lg="8">
-            <b-card body-class="d-flex justify-content-between align-items-between">
-                <h4>Create Resources</h4>
-                <b-dropdown variant="link" toggle-class="text-decoration-none m-0" no-caret right>
-                    <template #button-content>
-                        <b-icon icon="plus-circle" variant="dark" font-scale="2"/>
+    <div>
+        <Banner/>
+        <b-container>
+            <b-row class="justify-content-center mt-5">
+                <b-col sm="12" lg="10">
+                    <b-card body-class="d-flex justify-content-between align-items-between">
+                        <h4>Create Resources</h4>
+                        <b-dropdown variant="link" toggle-class="text-decoration-none m-0" no-caret right>
+                            <template #button-content>
+                                <b-icon icon="plus-circle" variant="dark" font-scale="2"/>
+                            </template>
+                            <b-dropdown-item @click="handleModal('create-pdf-resource')">
+                                <b-icon icon="file-earmark-medical" variant="dark"/>
+                                <span class="ml-1">PDF Attachment</span>
+                            </b-dropdown-item>
+                            <b-dropdown-item @click="handleModal('create-html-snippet')">
+                                <b-icon icon="code-slash" variant="dark"/>
+                                <span class="ml-1">HTML Snippet</span>
+                            </b-dropdown-item>
+                            <b-dropdown-item @click="handleModal('create-link-resource')">
+                                <b-icon icon="link45deg" variant="dark"/>
+                                <span class="ml-1">Link</span>
+                            </b-dropdown-item>
+                        </b-dropdown>
+                    </b-card>
+                    <template v-if="enableCreatePdf">
+                        <create-pdf-resource
+                            operation="create"
+                            @toggle-modal="handleModal"
+                            @on-change-resource="onChangeResource"
+                        />
                     </template>
-                    <b-dropdown-item @click="handleModal('create-pdf-resource')">
-                        <b-icon icon="file-earmark-medical" variant="dark"/>
-                        <span class="ml-1">PDF Attachment</span>
-                    </b-dropdown-item>
-                    <b-dropdown-item @click="handleModal('create-html-snippet')">
-                        <b-icon icon="code-slash" variant="dark"/>
-                        <span class="ml-1">HTML Snippet</span>
-                    </b-dropdown-item>
-                    <b-dropdown-item @click="handleModal('create-link-resource')">
-                        <b-icon icon="link45deg" variant="dark"/>
-                        <span class="ml-1">Link</span>
-                    </b-dropdown-item>
-                </b-dropdown>
-                <template v-if="enableCreatePdf">
-                    <create-pdf-resource
-                        operation="create"
-                        @toggle-modal="handleModal"
-                        @on-change-resource="onChangeResource"
-                    />
-                </template>
-                <template v-if="enableCreateHtmlSnippet">
-                    <create-html-snippet
-                        operation="create"
-                        @toggle-modal="handleModal"
-                        @on-change-resource="onChangeResource"
-                    />
-                </template>
-                <template v-if="enableCreateLink">
-                    <create-edit-link-resource
-                        operation="create"
-                        @toggle-modal="handleModal"
-                        @on-change-resource="onChangeResource"
-                    />
-                </template>
-            </b-card>
-            <div>
-                <browse-resources
-                    :resources="resources"
-                    :can-manage="true"
-                    :loading="loading"
-                    @on-change-resource="onChangeResource"
-                />
-            </div>
-        </b-col>
-    </b-row>
+                    <template v-if="enableCreateHtmlSnippet">
+                        <create-html-snippet
+                            operation="create"
+                            @toggle-modal="handleModal"
+                            @on-change-resource="onChangeResource"
+                        />
+                    </template>
+                    <template v-if="enableCreateLink">
+                        <create-edit-link-resource
+                            operation="create"
+                            @toggle-modal="handleModal"
+                            @on-change-resource="onChangeResource"
+                        />
+                    </template>
+                    <div>
+                        <Resources
+                            :resources="resources"
+                            :can-manage="true"
+                            :loading="loading"
+                            @on-change-resource="onChangeResource"
+                        />
+                    </div>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 <script>
 import {
     BCard,
     BCol,
+    BContainer,
     BDropdown,
     BDropdownItem,
     BIcon,
@@ -65,13 +71,15 @@ import {
     BIconFileEarmarkMedical,
     BIconLink45deg,
     BIconPlusCircle,
+    BImg,
     BRow
 } from "bootstrap-vue";
 import CreatePdfResource from "../components/CreatePdfResource";
-import BrowseResources from "../components/BrowseResources";
+import Resources from "../components/Resources";
 import CreateHtmlSnippet from "../components/CreateHtmlSnippet";
 import axios from "axios";
 import CreateEditLinkResource from "../components/CreateEditLinkResource";
+import Banner from "../components/Banner";
 
 const uiElements = {
     BDropdown,
@@ -83,7 +91,8 @@ const uiElements = {
     BIconCodeSlash,
     BIconFileEarmarkMedical,
     BIconLink45deg,
-    BCard
+    BCard,
+    BContainer, BImg
 }
 export default {
     name: "ManageResources",
@@ -92,7 +101,8 @@ export default {
         CreateHtmlSnippet,
         ...uiElements,
         CreatePdfResource,
-        BrowseResources
+        Resources,
+        Banner
     },
     data: function () {
         return {
@@ -162,8 +172,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .btn:focus {
     box-shadow: none !important;
 }
+
 </style>

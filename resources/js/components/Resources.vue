@@ -1,9 +1,10 @@
 <template>
-    <div class="mt-5" :class="loading &&'d-flex justify-content-center'">
+    <div class="mt-3" :class="loading &&'d-flex justify-content-center'">
         <template v-if="loading">
             <b-spinner variant="secondary" type="grow" label="Spinning"></b-spinner>
         </template>
         <template v-else>
+            <empty-card v-if="resources.length === 0"/>
             <div v-for="resource in allResources" :key="resource.id" class="position-relative">
                 <resource-details :resource="resource"/>
                 <template v-if="canManage">
@@ -91,6 +92,7 @@ import ResourceDetails from "./ResourceDetails";
 import CreatePdfResource from "./CreatePdfResource";
 import CreateHtmlSnippet from "./CreateHtmlSnippet";
 import CreateEditLinkResource from "./CreateEditLinkResource";
+import EmptyCard from "./EmptyCard";
 
 Vue.use(ModalPlugin)
 
@@ -105,6 +107,7 @@ export default {
         CreateHtmlSnippet,
         CreatePdfResource,
         ...uiComponents,
+        EmptyCard
     },
     props: {
         canManage: {type: Boolean, required: true},

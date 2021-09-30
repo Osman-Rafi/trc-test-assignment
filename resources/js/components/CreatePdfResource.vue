@@ -20,13 +20,16 @@
                 ></b-form-input>
             </b-form-group>
             <b-form-group
-                label="File">
+                label="File"
+                description="Only PDF if accepted"
+            >
                 <b-form-file
                     v-model="file"
                     :state="fileState"
                     size="sm"
                     placeholder="Choose a file or drop it here..."
                     drop-placeholder="Drop file here..."
+                    accept="application/pdf"
                 ></b-form-file>
                 <div class="mt-3" v-if="file"><span class="font-italic">Selected file:</span>
                     {{ file ? file.name : '' }}
@@ -122,13 +125,26 @@ export default {
                     this.resetModal()
                 })
                 .catch(error => {
+                    const errors = error.response.data.errors;
+                    for (let key in errors) {
+                        if (errors.hasOwnProperty(key)) {
+                            const message = errors[key];
+                            this.$bvToast.toast(message, {
+                                title: "Your input is not valid",
+                                toaster: 'b-toaster-bottom-left',
+                                solid: true,
+                                variant: 'danger',
+                                autoHideDelay: 15000,
+                            })
+                        }
+                    }
                     this.$bvToast.toast('Something went wrong!', {
                         title: "Opss..",
                         toaster: 'b-toaster-bottom-left',
                         solid: true,
                         variant: 'danger'
                     })
-                    console.error(error)
+
                 })
 
             this.titleState = null

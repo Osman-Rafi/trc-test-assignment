@@ -9,12 +9,12 @@ const routes = [
         component: () => import("./views/Welcome")
     },
     {
-        path:'/browse-resources',
-        component: () => import("./components/BrowseResources")
-    },
-    {
         path:'/manage-resources',
         component: () => import("./views/ManageResources")
+    },
+    {
+        path:'/browse-resources',
+        component: () => import("./views/BrowseResources")
     },
 
 ]

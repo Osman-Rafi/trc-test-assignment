@@ -30,14 +30,6 @@ class ManagementController extends Controller
         return response(['message' => 'Resource updated successfully', 'resource' => $resource], 201);
     }
 
-    public function fetchResources()
-    {
-        $resources = Resources::select('id', 'type', 'title', 'file', 'description', 'snippet', 'url', 'new_tab', 'created_at')->orderBy('created_at', 'desc')->get();
-
-        return response()->json([
-            'resources' => $resources
-        ]);
-    }
 
     public function createHtmlSnippet(CreateHtmlSnippetRequest $request)
     {
@@ -53,6 +45,8 @@ class ManagementController extends Controller
         return response(['message' => 'Resource created successfully', 'resource' => $resource], 201);
     }
 
+
+
     public function updatePdfResource(UpdatePdfResourceRequest $request, Resources $resource)
     {
         $resource->type = $request->type;
@@ -63,12 +57,6 @@ class ManagementController extends Controller
         $resource->save();
 
         return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
-    }
-
-    public function destroyResource(Resources $resource)
-    {
-        $resource->delete();
-        return response(['message' => 'Resource deleted successfully']);
     }
 
     public function updateHtmlSnippet(UpdateHtmlSnippetRequest $request, Resources $resource)
@@ -82,6 +70,7 @@ class ManagementController extends Controller
 
         return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
     }
+
 
     public function createLinkResource(CreateLinkResourceRequest $request)
     {
@@ -107,5 +96,11 @@ class ManagementController extends Controller
         $resource->save();
 
         return response(['message' => 'Resource updated successfully', 'resource' => $resource]);
+    }
+
+    public function destroyResource(Resources $resource)
+    {
+        $resource->delete();
+        return response(['message' => 'Resource deleted successfully']);
     }
 }

@@ -54,8 +54,8 @@
                 </b-col>
                 <template v-if="resource.type=='html'">
                     <b-button v-b-toggle.html-details block variant="link"
-                              class="text-decoration-none text-secondary" @click="toggleCollapse">Show
-                        More
+                              class="text-decoration-none text-secondary" @click="toggleCollapse">
+                        {{ detailsCollapseOpen ? 'Show Less' : 'Show More' }}
                     </b-button>
                 </template>
             </b-row>
