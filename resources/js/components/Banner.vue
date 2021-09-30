@@ -4,7 +4,7 @@
             <div class="banner-text">
                 <h2 class="banner-title"><span class="font-weight-bold">The Remote Company</span> Test Assignment
                 </h2>
-                <p class="banner-sub">Manage & Browse resources from here !</p>
+                <p class="banner-sub">{{ bannerSub }}</p>
             </div>
         </div>
     </div>
@@ -12,7 +12,10 @@
 
 <script>
 export default {
-    name: "Banner"
+    name: "Banner",
+    props: {
+        bannerSub: {type: String}
+    }
 }
 </script>
 

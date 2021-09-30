@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Banner/>
+        <Banner banner-sub="Manage & Browse resources from here !"/>
         <b-container>
             <b-row class="justify-content-center mt-5">
                 <b-col sm="12" lg="10">
