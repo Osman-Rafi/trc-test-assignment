@@ -70,7 +70,7 @@ Vue.use(ToastPlugin)
 const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast, BFormTextarea, BSpinner}
 
 export default {
-    name: "CreateHtmlSnippet",
+    name: "CreateEditHtmlSnippet",
     components: {
         ...uiComponents,
         PrismEditor

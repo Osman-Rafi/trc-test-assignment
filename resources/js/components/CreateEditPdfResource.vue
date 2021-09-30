@@ -51,7 +51,7 @@ Vue.use(ToastPlugin)
 const uiComponents = {BModal, BForm, BFormGroup, BFormInput, BFormFile, BToast}
 
 export default {
-    name: "CreatePdfResource",
+    name: "CreateEditPdfResource",
     components: {
         ...uiComponents
     },

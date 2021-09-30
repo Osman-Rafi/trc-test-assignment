@@ -49,7 +49,7 @@
             </b-modal>
         </template>
         <template v-if="enableEditPdf">
-            <create-pdf-resource
+            <create-edit-pdf-resource
                 :resource="resource"
                 operation="edit"
                 @toggle-modal="handleModal"
@@ -57,7 +57,7 @@
             />
         </template>
         <template v-if="enableEditHtmlSnippet">
-            <create-html-snippet
+            <create-edit-html-snippet
                 :resource="resource"
                 operation="edit"
                 @toggle-modal="handleModal"
@@ -89,8 +89,8 @@ import {
     VBModal
 } from "bootstrap-vue";
 import ResourceDetails from "./ResourceDetails";
-import CreatePdfResource from "./CreatePdfResource";
-import CreateHtmlSnippet from "./CreateHtmlSnippet";
+import CreateEditPdfResource from "./CreateEditPdfResource";
+import CreateEditHtmlSnippet from "./CreateEditHtmlSnippet";
 import CreateEditLinkResource from "./CreateEditLinkResource";
 import EmptyCard from "./EmptyCard";
 
@@ -104,8 +104,8 @@ export default {
     components: {
         CreateEditLinkResource,
         ResourceDetails,
-        CreateHtmlSnippet,
-        CreatePdfResource,
+        CreateEditHtmlSnippet,
+        CreateEditPdfResource,
         ...uiComponents,
         EmptyCard
     },

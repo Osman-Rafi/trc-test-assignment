@@ -74,9 +74,9 @@ import {
     BImg,
     BRow
 } from "bootstrap-vue";
-import CreatePdfResource from "../components/CreatePdfResource";
+import CreatePdfResource from "../components/CreateEditPdfResource";
 import Resources from "../components/Resources";
-import CreateHtmlSnippet from "../components/CreateHtmlSnippet";
+import CreateHtmlSnippet from "../components/CreateEditHtmlSnippet";
 import axios from "axios";
 import CreateEditLinkResource from "../components/CreateEditLinkResource";
 import Banner from "../components/Banner";

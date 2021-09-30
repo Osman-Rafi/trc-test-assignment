@@ -33,7 +33,8 @@
                             </template>
                             <template v-if="resource.type === 'link'">
                                 <a class="btn btn-outline-dark btn-sm fs-5" :target="resource.new_tab === 1 && '_blank'"
-                                   :href="resource.url">Visit URL</a>
+                                   :href="resource.url">Visit URL
+                                </a>
                             </template>
                             <template v-if="resource.type=='html'">
                                 <b-collapse id="html-details" class="mt-2">
@@ -101,7 +102,7 @@ export default {
         BBadge,
         BIconFileEarmarkText,
         BIconLink45deg,
-        BCollapse
+        BCollapse,
     },
     props: {
         resource: {type: Object, required: true},
