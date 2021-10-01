@@ -157,7 +157,8 @@ export default {
             try {
                 await navigator.clipboard.writeText(this.resource.snippet);
                 this.snippetCopyTooltipTitle = "Copied !"
-            } catch ($e) {
+            } catch (e) {
+                console.log(e)
                 this.$bvToast.toast("Error", {
                     title: "Can't copy",
                     toaster: 'b-toaster-bottom-left',
