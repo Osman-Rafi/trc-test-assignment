@@ -5,8 +5,19 @@
                 <h2>The Remote Company Resources</h2>
                 <p>To navigate through the resources enter as a visitor, and to create resources enter a admin</p>
                 <div>
-                    <Link path="/manage-resources" label="Enter as a Admin" variant="primary"/>
-                    <Link path="/browse-resources" label="Enter as a Visitor" variant="success"/>
+                    <router-link to="/manage-resources">
+                        <b-button variant="primary" @click="adminViewLoading=true">
+                            <b-spinner v-if="adminViewLoading" small label="Loading..."></b-spinner>
+                            Enter as a Admin
+                        </b-button>
+                    </router-link>
+
+                    <router-link to="/browse-resources">
+                        <b-button variant="success" @click="visitorsViewLoading=true">
+                            <b-spinner v-if="visitorsViewLoading" small label="Loading..."></b-spinner>
+                            Enter as a Visitor
+                        </b-button>
+                    </router-link>
                 </div>
             </b-col>
         </b-row>
@@ -14,16 +25,20 @@
 </template>
 
 <script>
-import {BContainer,BCol, BRow} from "bootstrap-vue";
-import Link from "../components/Link";
+import {BButton, BCol, BContainer, BRow, BSpinner} from "bootstrap-vue";
 
-const uiElements = {BContainer,BRow, BCol}
+const uiElements = {BContainer, BRow, BCol, BButton, BSpinner}
 
 export default {
     name: "Welcome",
+    data: function () {
+        return {
+            adminViewLoading: false,
+            visitorsViewLoading: false
+        }
+    },
     components: {
         ...uiElements,
-        Link
     }
 }
 </script>
