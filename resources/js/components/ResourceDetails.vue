@@ -154,24 +154,17 @@ export default {
             this.detailsCollapseOpen = !this.detailsCollapseOpen
         },
         async copyCodeToClipBoard() {
-            const data = this.resource.snippet;
-            let vm = this;
-            if (navigator.clipboard !== undefined) {//Chrome
-                navigator.clipboard.writeText(data).then(function () {
-                    vm.snippetCopyTooltipTitle = "Copied !"
-                }, function (err) {
-                    console.log(err)
-                    this.$bvToast.toast("Error", {
-                        title: "Can't copy",
-                        toaster: 'b-toaster-bottom-left',
-                        solid: true,
-                        variant: 'danger',
-                    })
-                });
-            } else if (window.clipboardData) { // Internet Explorer
-                window.clipboardData.setData("Text", data);
+            try {
+                await navigator.clipboard.writeText(this.resource.snippet);
+                this.snippetCopyTooltipTitle = "Copied !"
+            } catch ($e) {
+                this.$bvToast.toast("Error", {
+                    title: "Can't copy",
+                    toaster: 'b-toaster-bottom-left',
+                    solid: true,
+                    variant: 'danger',
+                })
             }
-            
             setTimeout(() => {
                 this.snippetCopyTooltipTitle = "Copy to Clipboard";
             }, 2000)
