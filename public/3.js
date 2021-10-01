@@ -74,9 +74,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 var uiElements = {
+  BContainer: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BContainer"],
   BRow: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BRow"],
   BCol: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BCol"]
 };
@@ -138,40 +141,46 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "b-row",
-    { staticClass: "justify-content-center text-center mt-5 pt-5" },
+    "b-container",
     [
-      _c("b-col", { attrs: { md: "12", lg: "10" } }, [
-        _c("h2", [_vm._v("The Remote Company Resources")]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "To navigate through the resources enter as a visitor, and to create resources enter a admin"
-          )
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          [
-            _c("Link", {
-              attrs: {
-                path: "/manage-resources",
-                label: "Enter as a Admin",
-                variant: "primary"
-              }
-            }),
+      _c(
+        "b-row",
+        { staticClass: "justify-content-center text-center mt-5 pt-5" },
+        [
+          _c("b-col", { attrs: { md: "12", lg: "10" } }, [
+            _c("h2", [_vm._v("The Remote Company Resources")]),
             _vm._v(" "),
-            _c("Link", {
-              attrs: {
-                path: "/browse-resources",
-                label: "Enter as a Visitor",
-                variant: "success"
-              }
-            })
-          ],
-          1
-        )
-      ])
+            _c("p", [
+              _vm._v(
+                "To navigate through the resources enter as a visitor, and to create resources enter a admin"
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _c("Link", {
+                  attrs: {
+                    path: "/manage-resources",
+                    label: "Enter as a Admin",
+                    variant: "primary"
+                  }
+                }),
+                _vm._v(" "),
+                _c("Link", {
+                  attrs: {
+                    path: "/browse-resources",
+                    label: "Enter as a Visitor",
+                    variant: "success"
+                  }
+                })
+              ],
+              1
+            )
+          ])
+        ],
+        1
+      )
     ],
     1
   )
