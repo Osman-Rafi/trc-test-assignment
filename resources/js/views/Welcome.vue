@@ -8,7 +8,7 @@
                     <router-link to="/manage-resources">
                         <b-button variant="primary" @click="adminViewLoading=true">
                             <b-spinner v-if="adminViewLoading" small label="Loading..."></b-spinner>
-                            Enter as a Admin
+                            Enter as an Admin
                         </b-button>
                     </router-link>
 
