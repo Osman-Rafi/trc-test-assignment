@@ -117,11 +117,11 @@ var render = function() {
                               attrs: { small: "", label: "Loading..." }
                             })
                           : _vm._e(),
-                        _vm._v(
-                          "\n                        Enter as a Admin\n                    "
-                        )
+                        _vm._v("\n                        Enter"),
+                        _vm.adminViewLoading ? [_vm._v("ing")] : _vm._e(),
+                        _vm._v(" as an Admin\n                    ")
                       ],
-                      1
+                      2
                     )
                   ],
                   1
@@ -147,11 +147,11 @@ var render = function() {
                               attrs: { small: "", label: "Loading..." }
                             })
                           : _vm._e(),
-                        _vm._v(
-                          "\n                        Enter as a Visitor\n                    "
-                        )
+                        _vm._v("\n                        Enter"),
+                        _vm.visitorsViewLoading ? [_vm._v("ing")] : _vm._e(),
+                        _vm._v(" as a Visitor\n                    ")
                       ],
-                      1
+                      2
                     )
                   ],
                   1

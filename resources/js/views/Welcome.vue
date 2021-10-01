@@ -8,14 +8,14 @@
                     <router-link to="/manage-resources">
                         <b-button variant="primary" @click="adminViewLoading=true">
                             <b-spinner v-if="adminViewLoading" small label="Loading..."></b-spinner>
-                            Enter as an Admin
+                            Enter<template v-if="adminViewLoading">ing</template> as an Admin
                         </b-button>
                     </router-link>
 
                     <router-link to="/browse-resources">
                         <b-button variant="success" @click="visitorsViewLoading=true">
                             <b-spinner v-if="visitorsViewLoading" small label="Loading..."></b-spinner>
-                            Enter as a Visitor
+                            Enter<template v-if="visitorsViewLoading">ing</template> as a Visitor
                         </b-button>
                     </router-link>
                 </div>
