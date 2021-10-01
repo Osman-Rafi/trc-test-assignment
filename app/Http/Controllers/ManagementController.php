@@ -35,7 +35,7 @@ class ManagementController extends Controller
     {
         $resource = new Resources();
 
-        $resource->type = "html";
+        $resource->type = $request->type;;
         $resource->title = $request->title;
         $resource->description = $request->description;
         $resource->snippet = $request->snippet;
