@@ -154,8 +154,10 @@ export default {
             this.detailsCollapseOpen = !this.detailsCollapseOpen
         },
         async copyCodeToClipBoard() {
+            const data = this.resource.snippet;
+            console.log(data)
             try {
-                await navigator.clipboard.writeText(this.resource.snippet);
+                await navigator.clipboard.writeText(data);
                 this.snippetCopyTooltipTitle = "Copied !"
             } catch (e) {
                 console.log(e)
