@@ -103,7 +103,9 @@ var uiElements = {
   BIconLink45deg: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BIconLink45deg"],
   BCard: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BCard"],
   BContainer: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BContainer"],
-  BImg: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BImg"]
+  BImg: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BImg"],
+  ToastPlugin: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["ToastPlugin"],
+  BToast: bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["BToast"]
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ManageResources",
@@ -172,11 +174,24 @@ var uiElements = {
       var index = this.resources.findIndex(function (i) {
         return i.id === resource.id;
       });
-      if (operation === "create") this.resources.unshift(resource);else if (operation === "edit") {
+
+      if (operation === "create") {
+        this.resources.unshift(resource);
+        this.showToaster("creat", 'success');
+      } else if (operation === "edit") {
         vm.resources.splice(index, 1, resource);
+        this.showToaster("edit", 'success');
       } else if (operation === "delete") {
         vm.resources.splice(index, 1);
       }
+    },
+    showToaster: function showToaster(operation, variant) {
+      this.$bvToast.toast("Resources  ".concat(operation, "ed Successfully"), {
+        title: "Success !!",
+        toaster: 'b-toaster-bottom-left',
+        solid: true,
+        variant: variant
+      });
     }
   },
   mounted: function mounted() {

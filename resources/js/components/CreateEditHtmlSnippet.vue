@@ -150,12 +150,6 @@ export default {
                     }
                 })
                 .then(() => {
-                    this.$bvToast.toast(`Resources  ${this.operation === 'create' ? "Created" : "Updated"} Successfully`, {
-                        title: "Success !!",
-                        toaster: 'b-toaster-top-left',
-                        solid: true,
-                        variant: 'primary'
-                    })
                     this.saving = false;
                     this.resetModal()
                 })

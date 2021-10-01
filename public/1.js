@@ -220,13 +220,6 @@ var uiComponents = {
           });
         }
       }).then(function () {
-        _this.$bvToast.toast("Resources  ".concat(_this.operation === 'create' ? "Created" : "Updated", " Successfully"), {
-          title: "Success !!",
-          toaster: 'b-toaster-top-left',
-          solid: true,
-          variant: 'primary'
-        });
-
         _this.saving = false;
 
         _this.resetModal();

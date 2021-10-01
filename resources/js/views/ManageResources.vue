@@ -72,7 +72,9 @@ import {
     BIconLink45deg,
     BIconPlusCircle,
     BImg,
-    BRow
+    BRow,
+    BToast,
+    ToastPlugin
 } from "bootstrap-vue";
 import CreatePdfResource from "../components/CreateEditPdfResource";
 import Resources from "../components/Resources";
@@ -92,7 +94,8 @@ const uiElements = {
     BIconFileEarmarkMedical,
     BIconLink45deg,
     BCard,
-    BContainer, BImg
+    BContainer, BImg, ToastPlugin,
+    BToast
 }
 export default {
     name: "ManageResources",
@@ -157,13 +160,24 @@ export default {
             let vm = this;
             const index = this.resources.findIndex(i => i.id === resource.id);
 
-            if (operation === "create")
+            if (operation === "create") {
                 this.resources.unshift(resource)
-            else if (operation === "edit") {
+                this.showToaster("creat", 'success')
+            } else if (operation === "edit") {
                 vm.resources.splice(index, 1, resource)
+                this.showToaster("edit", 'success')
             } else if (operation === "delete") {
                 vm.resources.splice(index, 1)
             }
+        },
+
+        showToaster(operation, variant) {
+            this.$bvToast.toast(`Resources  ${operation}ed Successfully`, {
+                title: "Success !!",
+                toaster: 'b-toaster-bottom-left',
+                solid: true,
+                variant: variant
+            })
         }
     },
     mounted() {
